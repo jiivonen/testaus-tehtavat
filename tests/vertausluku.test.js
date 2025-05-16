@@ -46,4 +46,22 @@ describe("laskeVertausluvut", () => {
     }
     assert.equal(set.size, 2);
   });
+  it('toimii jos yhdellä ehdokkaalla', () => {
+    const lista = [
+      { numero: 101, nimi: "Maija Meikäläinen", aanet: 2 }
+    ];
+    mock.method(ehdokasRekisteri, 'haeLista', () => {
+      return lista;
+    });
+    const tulos = laskeVertausluvut(ehdokasRekisteri.haeLista(1));
+    assert.equal(tulos[0].vertausluku, 2);
+  });
+  it('toimii tyhjällä listalla', () => {
+    const lista = [];
+    mock.method(ehdokasRekisteri, 'haeLista', () => {
+      return lista;
+    });
+    const tulos = laskeVertausluvut(ehdokasRekisteri.haeLista(1));
+    assert.equal(tulos.length, 0);
+  });
 });
