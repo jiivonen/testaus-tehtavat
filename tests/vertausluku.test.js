@@ -7,8 +7,8 @@ import assert from "node:assert/strict";
 describe("laskeVertausluvut", () => {
   beforeEach(() => {
     const lista = [
-      { numero: 101, nimi: "Maija Meikäläinen", aanet: 1 },
-      { numero: 102, nimi: "Kalle Korhonen", aanet: 4 },
+      { numero: 101, nimi: "Maija Meikäläinen", aanet: 2 },
+      { numero: 102, nimi: "Kalle Korhonen", aanet: 3 },
       { numero: 103, nimi: "Sari Virtanen", aanet: 2 },
       { numero: 104, nimi: "Jukka Jokinen", aanet: 5 }
     ]
@@ -28,5 +28,22 @@ describe("laskeVertausluvut", () => {
   it('listan toiseksi eniten ääniä saaneen ehdokkaan vertausluku on puolet listan äänien summasta', () => {
     const tulos = laskeVertausluvut(ehdokasRekisteri.haeLista(1));
     assert.equal(tulos[1].vertausluku, 6);
+  });
+  it('ensimmäinen ehdokas on eniten ääniä saanut', () => {
+    const tulos = laskeVertausluvut(ehdokasRekisteri.haeLista(1));
+    assert.equal(tulos[0].numero, 104);
+  });
+  it('saman äänimäärän saaneet ehdokkaat on merkitty arvotuiksi', () => {
+    const tulos = laskeVertausluvut(ehdokasRekisteri.haeLista(1));
+    assert.equal(tulos[2].arvottu, true);
+    assert.equal(tulos[3].arvottu, true);
+  });
+  it('saman äänimäärän saaneet ehdokkaat ovat satunnaisessa järjestyksessä', () => {
+    const set = new Set();
+    for (let i = 0; i < 10; i++) {
+      const tulos = laskeVertausluvut(ehdokasRekisteri.haeLista(1));
+      set.add(tulos[2].numero);
+    }
+    assert.equal(set.size, 2);
   });
 });
